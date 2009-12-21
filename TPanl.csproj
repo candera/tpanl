@@ -60,6 +60,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -80,6 +81,8 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="KeySpecificationParseException.cs" />
+    <Compile Include="Net\SimpleHttpRequest.cs" />
+    <Compile Include="Net\SimpleHttpResponse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
@@ -107,6 +110,8 @@
     </Compile>
     <Compile Include="KeyDirection.cs" />
     <Compile Include="KeyEvent.cs" />
+    <Compile Include="Net\SimpleHttpContext.cs" />
+    <Compile Include="Net\SimpleHttpListener.cs" />
     <Compile Include="TimerAction.cs" />
     <Compile Include="Win32.cs" />
   </ItemGroup>

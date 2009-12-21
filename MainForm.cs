@@ -10,6 +10,7 @@ using System.IO;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using TPanl.Net;
 
 namespace TPanl
 {
@@ -171,70 +172,6 @@ namespace TPanl
             ShowInTaskbar = true;
             Activate(); 
         }
-        private void RunSocketListener()
-        {
-            TcpListener server = new TcpListener(IPAddress.Any, 0xFAC0);
-            server.Start();
-
-            try
-            {
-                while (true)
-                {
-                    SetStatus("Socket server listening");
-                    SetIcon(); 
-
-                    TcpClient client = server.AcceptTcpClient();
-
-                    SetStatus("Socket client connected");
-                    _socketClientConnected = true; 
-                    SetIcon(); 
-
-                    using (StreamReader reader = new StreamReader(client.GetStream()))
-                    {
-                        using (StreamWriter writer = new StreamWriter(client.GetStream()))
-                        {
-                            string verb = null;
-                            string resource = null; 
-                            string line = null;
-                            while ((line = reader.ReadLine()) != null)
-                            {
-                                Log("Received " + line);
-                                if (verb == null)
-                                {
-                                    var parts = line.Split(' ');
-                                    verb = parts[0];
-                                    resource = parts[1];
-                                    Log("verb is " + verb + " resource is " + resource); 
-                                }
-
-                                if (line.Trim().Length == 0)
-                                {
-                                    if (verb.Equals("GET") && resource.Equals("/"))
-                                    {
-                                        string content = "<html><body><h1>Test!</h1></body></html>";
-                                        WriteResponse(writer, "200 OK", null, content);
-                                    }
-                                    else
-                                    {
-                                        WriteResponse(writer, "500 Not Implemented", null, null); 
-                                    }
-                                }
-                            }
-                            writer.Close();
-                        }
-                        reader.Close();
-                        Log("Connection closed");
-                        _socketClientConnected = false;
-                        SetIcon(); 
-                    }
-                }
-            }
-            finally
-            {
-                server.Stop();
-            }
-            
-        }
 
         private void WriteResponse(StreamWriter writer, string status, IDictionary<string, object> headers, string body)
         {
@@ -301,10 +238,25 @@ namespace TPanl
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            Thread socketThread = new Thread(RunSocketListener);
-            socketThread.IsBackground = true;
-            socketThread.Start();
+            var listener = SimpleHttpListener.Start(0xFAC0, HandleHttpRequest);
         }
+
+        private void HandleHttpRequest(SimpleHttpContext context)
+        {
+            if (context.Request.Method.Equals("GET") && context.Request.RawUrl.Equals("/"))
+            {
+                string content = "<html><body><h1>Test!</h1></body></html>";
+                context.Response.Write("200 OK");
+            }
+            else
+            {
+                context.Response.StatusCode = HttpStatusCode.NotFound;
+                context.Response.StatusDescription = "Not Found";
+                context.Response.Write("404 Not Found", null);
+            }
+
+        }
+
         private void MainForm_Resize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
