@@ -20,7 +20,7 @@ namespace TPanl
         private readonly OpenFileDialog _loadProfileDialog = new OpenFileDialog();
         private readonly List<TimerAction> _pendingActions = new List<TimerAction>();
         private bool _profileLoaded;
-        private bool _socketClientConnected; 
+        private bool _socketClientConnected = false; 
 
         public MainForm() : this(null)
         {
@@ -246,13 +246,12 @@ namespace TPanl
             if (context.Request.Method.Equals("GET") && context.Request.RawUrl.Equals("/"))
             {
                 string content = "<html><body><h1>Test!</h1></body></html>";
-                context.Response.Write("200 OK");
+                context.Response.Write(content);
             }
             else
             {
                 context.Response.StatusCode = HttpStatusCode.NotFound;
                 context.Response.StatusDescription = "Not Found";
-                context.Response.Write("404 Not Found", null);
             }
 
         }

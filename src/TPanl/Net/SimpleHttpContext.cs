@@ -23,7 +23,6 @@ namespace TPanl.Net
             using (StreamReader reader = new StreamReader(client.GetStream()))
             {
                 bool firstLine = true;
-                string resource = null;
                 string line = null;
                 while ((line = reader.ReadLine()) != null)
                 {

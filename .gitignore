@@ -2,3 +2,6 @@ bin
 obj
 *.suo
 *.user
+*.vsmdi
+src/TestResults/
+*.testrunconfig

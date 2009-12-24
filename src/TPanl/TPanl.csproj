@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EC36033A-174E-4C86-9ECB-AE3C40475A50}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -83,6 +83,7 @@
     <Compile Include="KeySpecificationParseException.cs" />
     <Compile Include="Net\SimpleHttpRequest.cs" />
     <Compile Include="Net\SimpleHttpResponse.cs" />
+    <Compile Include="Net\Url.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
@@ -117,9 +118,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="red-black-black.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Test\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
