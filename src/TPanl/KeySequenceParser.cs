@@ -43,7 +43,7 @@ namespace TPanl
             }
         }
 
-        internal static KeyEventSequence Parse(string specification)
+        public static KeyEventSequence Parse(string specification)
         {
             try
             {
@@ -125,12 +125,12 @@ namespace TPanl
                         throw new KeySpecificationParseException("Key specification did not contain exactly two periods."); 
                     }
 
-                    key = (Keys)Enum.Parse(typeof(Keys), parts[0], true);
+                    key = ParseKey(parts[0]);
                     scanCode = ParseNumber(parts[1]); 
                 }
                 else
                 {
-                    key = (Keys)Enum.Parse(typeof(Keys), keySpecification, true);
+                    key = ParseKey(keySpecification);
                 }
 
 
@@ -147,7 +147,7 @@ namespace TPanl
             }
             else
             {
-                Keys key = (Keys)Enum.Parse(typeof(Keys), currentChar.ToString(), true);
+                Keys key = ParseKey(currentChar.ToString());
 
                 ParseNode newNode = new ParseNode { Key = key };
                 currentNode.Children.Add(newNode);
@@ -155,6 +155,18 @@ namespace TPanl
             }
 
             return consumed;
+        }
+
+        private static Keys ParseKey(string keyname)
+        {
+            try
+            {
+                return (Keys)Enum.Parse(typeof(Keys), keyname, true);
+            }
+            catch (ArgumentException)
+            {
+                throw new KeySpecificationParseException("No such key: " + keyname); 
+            }
         }
         private static ushort ParseNumber(string keySpecification)
         {
