@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net.Sockets;
 
 namespace TPanl.Net
 {
@@ -9,5 +10,6 @@ namespace TPanl.Net
     {
         public string Method { get; set; }
         public Url RawUrl { get; set; }
+
     }
 }

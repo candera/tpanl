@@ -37,9 +37,9 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miDisplayDiagnostics = new System.Windows.Forms.ToolStripMenuItem();
             this.miLoadProfile = new System.Windows.Forms.ToolStripMenuItem();
+            this.miUnloadProfile = new System.Windows.Forms.ToolStripMenuItem();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.miUnloadProfile = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -75,7 +75,7 @@
             // 
             this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "Keylay";
+            this.notifyIcon1.Text = "TPanl";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
             // 
@@ -87,7 +87,7 @@
             this.miUnloadProfile,
             this.miExit});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(180, 114);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(180, 92);
             // 
             // miDisplayDiagnostics
             // 
@@ -104,6 +104,13 @@
             this.miLoadProfile.Text = "&Load Profile...";
             this.miLoadProfile.Click += new System.EventHandler(this.miLoadProfile_Click);
             // 
+            // miUnloadProfile
+            // 
+            this.miUnloadProfile.Name = "miUnloadProfile";
+            this.miUnloadProfile.Size = new System.Drawing.Size(179, 22);
+            this.miUnloadProfile.Text = "&Unload Profile";
+            this.miUnloadProfile.Click += new System.EventHandler(this.miUnloadProfile_Click);
+            // 
             // miExit
             // 
             this.miExit.Name = "miExit";
@@ -115,13 +122,6 @@
             // 
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // miUnloadProfile
-            // 
-            this.miUnloadProfile.Name = "miUnloadProfile";
-            this.miUnloadProfile.Size = new System.Drawing.Size(179, 22);
-            this.miUnloadProfile.Text = "&Unload Profile";
-            this.miUnloadProfile.Click += new System.EventHandler(this.miUnloadProfile_Click);
             // 
             // MainForm
             // 

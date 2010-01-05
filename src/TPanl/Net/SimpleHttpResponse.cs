@@ -11,10 +11,5 @@ namespace TPanl.Net
         public HttpStatusCode StatusCode { get; set; }
         public string StatusDescription { get; set; }
 
-        internal void Write(string body)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

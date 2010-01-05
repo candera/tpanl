@@ -238,7 +238,8 @@ namespace TPanl
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            var listener = SimpleHttpListener.Start(0xFAC0, HandleHttpRequest);
+            var listener = SimpleHttpListener.Start(0xFAC0, HandleHttpRequest, Log);
+            Log("HTTP Listener started");
         }
 
         private void HandleHttpRequest(SimpleHttpContext context)
@@ -246,7 +247,7 @@ namespace TPanl
             if (context.Request.Method.Equals("GET") && context.Request.RawUrl.Equals("/"))
             {
                 string content = "<html><body><h1>Test!</h1></body></html>";
-                context.Response.Write(content);
+                context.Write(content);
             }
             else
             {

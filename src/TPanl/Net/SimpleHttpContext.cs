@@ -7,53 +7,64 @@ using System.IO;
 
 namespace TPanl.Net
 {
-    public class SimpleHttpContext
+    public class SimpleHttpContext : IDisposable
     {
-        private readonly SimpleHttpResponse _response;
+        private readonly Action<string> _logger;
         private readonly SimpleHttpRequest _request;
+        private readonly StreamReader _requestReader; 
+        private readonly SimpleHttpResponse _response;
+        private readonly StreamWriter _responseWriter; 
+        private readonly TcpClient _socket; 
 
         public SimpleHttpRequest Request { get { return _request; } }
         public SimpleHttpResponse Response { get { return _response; } }
 
-        public SimpleHttpContext(TcpClient client)
+        public SimpleHttpContext(TcpClient socket, Action<string> logger)
         {
+            _logger = logger; 
             _request = new SimpleHttpRequest();
             _response = new SimpleHttpResponse();
+            _socket = socket;
 
-            using (StreamReader reader = new StreamReader(client.GetStream()))
+            _requestReader = new StreamReader(socket.GetStream());
+            _responseWriter = new StreamWriter(socket.GetStream()); 
+
+            bool firstLine = true;
+            string line = null;
+            while ((line = _requestReader.ReadLine()) != null)
             {
-                bool firstLine = true;
-                string line = null;
-                while ((line = reader.ReadLine()) != null)
+                Log("Received " + line);
+                if (firstLine)
                 {
-                    Log("Received " + line);
-                    if (firstLine)
-                    {
-                        var parts = line.Split(' ');
-                        _request.Method = parts[0];
-                        _request.RawUrl = parts[1];
-                        Log("method is " + _request.Method + " url is " + _request.RawUrl);
-                    }
+                    var parts = line.Split(' ');
+                    _request.Method = parts[0];
+                    _request.RawUrl = parts[1];
+                    Log("method is " + _request.Method + " url is " + _request.RawUrl);
+                    firstLine = false; 
                 }
-                reader.Close();
-                Log("Connection closed");
-                SetIcon();
+                else if (line.Trim().Length == 0)
+                {
+                    break; 
+                }
             }
+            Log("Connection closed");
         }
 
-        private void SetIcon()
+        public void Write(string body)
         {
-            //throw new NotImplementedException();
+            _responseWriter.Write(body); 
         }
 
-        private void Log(string p)
+        private void Log(string message)
         {
-            //throw new NotImplementedException();
+            _logger(message); 
         }
 
-        internal void Close()
+        public void Dispose()
         {
-            //throw new NotImplementedException();
+            _responseWriter.Flush();
+            _requestReader.Dispose();
+            _responseWriter.Dispose();
         }
     }
 }
