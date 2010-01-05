@@ -173,32 +173,6 @@ namespace TPanl
             Activate(); 
         }
 
-        private void WriteResponse(StreamWriter writer, string status, IDictionary<string, object> headers, string body)
-        {
-            writer.WriteLine("HTTP/1.1 " + status);
-            if (body != null)
-            {
-                writer.WriteLine("Content-Length: {0}", body.Length);
-            }
-            if (headers != null)
-            {
-                foreach (var header in headers)
-                {
-                    writer.WriteLine("{0}: {1}", header.Key, header.Value); 
-                }
-            }
-
-            writer.WriteLine();
-
-            if (body != null)
-            {
-                writer.WriteLine(body); 
-            }
-
-            Log("Wrote response");
-
-            writer.Flush(); 
-        }
         private void SetIcon()
         {
             if (InvokeRequired)
@@ -246,8 +220,20 @@ namespace TPanl
         {
             if (context.Request.Method.Equals("GET") && context.Request.RawUrl.Equals("/"))
             {
-                string content = "<html><body><h1>Test!</h1></body></html>";
-                context.Write(content);
+                using (var stream = GetResource("index.html"))
+                {
+                    if (stream == null)
+                    {
+                        context.Response.StatusCode = HttpStatusCode.NotFound;
+                        context.Response.StatusDescription = "Not Found";
+                        context.Write("Not found"); 
+                    }
+                    else
+                    {
+                        context.Response.ContentType = "text/html";
+                        context.Write(stream);
+                    }
+                }
             }
             else
             {
@@ -255,6 +241,11 @@ namespace TPanl
                 context.Response.StatusDescription = "Not Found";
             }
 
+        }
+
+        private Stream GetResource(string name)
+        {
+            return Assembly.GetExecutingAssembly().GetManifestResourceStream(this.GetType().Namespace + ".Content." + name);
         }
 
         private void MainForm_Resize(object sender, EventArgs e)

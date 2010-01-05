@@ -9,6 +9,7 @@ namespace TPanl.Net
 {
     public class SimpleHttpContext : IDisposable
     {
+        private bool _headersWritten;
         private readonly Action<string> _logger;
         private readonly SimpleHttpRequest _request;
         private readonly StreamReader _requestReader; 
@@ -52,7 +53,36 @@ namespace TPanl.Net
 
         public void Write(string body)
         {
-            _responseWriter.Write(body); 
+            WriteHeaders(); 
+            _responseWriter.Write(body);
+            Log("Wrote body"); 
+        }
+
+
+        public void Write(Stream body)
+        {
+            WriteHeaders(); 
+            var stream = _socket.GetStream(); 
+            var buf = new byte[4096];
+            int read; 
+            while ((read = body.Read(buf, 0, 4096)) > 0)
+            {
+                stream.Write(buf, 0, read); 
+            }
+            Log("Wrote body"); 
+        }
+
+        private void WriteHeaders()
+        {
+            if (_headersWritten)
+            {
+                return; 
+            }
+
+            _response.WriteHeaders(_responseWriter);
+            _responseWriter.Flush(); 
+            _headersWritten = true; 
+            Log("Wrote headers");
         }
 
         private void Log(string message)
@@ -62,6 +92,7 @@ namespace TPanl.Net
 
         public void Dispose()
         {
+            WriteHeaders(); 
             _responseWriter.Flush();
             _requestReader.Dispose();
             _responseWriter.Dispose();
