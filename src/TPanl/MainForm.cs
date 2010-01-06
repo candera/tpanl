@@ -218,32 +218,63 @@ namespace TPanl
 
         private void HandleHttpRequest(SimpleHttpContext context)
         {
-            if (context.Request.Method.Equals("GET") && context.Request.RawUrl.Equals("/"))
+            var resource = GetResourceForUrl(context.Request.RawUrl);
+
+            if (resource == null)
             {
-                using (var stream = GetResource("index.html"))
+                context.Response.StatusCode = HttpStatusCode.NotFound;
+                context.Response.StatusDescription = "Not Found";
+            }
+            else
+            {
+                using (var stream = GetResourceStream(resource))
                 {
                     if (stream == null)
                     {
                         context.Response.StatusCode = HttpStatusCode.NotFound;
                         context.Response.StatusDescription = "Not Found";
-                        context.Write("Not found"); 
+                        context.Write("Not found");
                     }
                     else
                     {
-                        context.Response.ContentType = "text/html";
+                        context.Response.ContentType = GetContentTypeForResource(resource);
                         context.Write(stream);
                     }
                 }
             }
-            else
-            {
-                context.Response.StatusCode = HttpStatusCode.NotFound;
-                context.Response.StatusDescription = "Not Found";
-            }
 
         }
 
-        private Stream GetResource(string name)
+        private string GetContentTypeForResource(string resource)
+        {
+            if (resource.EndsWith(".html"))
+            {
+                return "text/html"; 
+            }
+            else if (resource.EndsWith(".jpg"))
+            {
+                return "image/jpeg";
+            }
+            else
+            {
+                return null; 
+            }
+        }
+
+        private string GetResourceForUrl(Url url)
+        {
+            if (url.Equals("/"))
+            {
+                return "index.html";
+            }
+            else
+            {
+                // Remove leading slash
+                return url.ToString().Substring(1);
+            }
+        }
+
+        private Stream GetResourceStream(string name)
         {
             return Assembly.GetExecutingAssembly().GetManifestResourceStream(this.GetType().Namespace + ".Content." + name);
         }
