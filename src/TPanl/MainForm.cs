@@ -16,6 +16,13 @@ namespace TPanl
 {
     public partial class MainForm : Form
     {
+        private Dictionary<string, string> _mimeTypes = new Dictionary<string, string>
+            {
+                { ".html", "text/html" },
+                { ".jpg", "image/jpeg" },
+                { ".js", "text/javascript" },
+            };
+
         private bool _allowClose;
         private readonly OpenFileDialog _loadProfileDialog = new OpenFileDialog();
         private readonly List<TimerAction> _pendingActions = new List<TimerAction>();
@@ -222,6 +229,7 @@ namespace TPanl
 
             if (resource == null)
             {
+                Log("Could not map resource for URL" + context.Request.RawUrl); 
                 context.Response.StatusCode = HttpStatusCode.NotFound;
                 context.Response.StatusDescription = "Not Found";
             }
@@ -231,12 +239,14 @@ namespace TPanl
                 {
                     if (stream == null)
                     {
+                        Log("Could not load resource for " + resource);
                         context.Response.StatusCode = HttpStatusCode.NotFound;
                         context.Response.StatusDescription = "Not Found";
                         context.Write("Not found");
                     }
                     else
                     {
+                        Log("Found resource " + resource); 
                         context.Response.ContentType = GetContentTypeForResource(resource);
                         context.Write(stream);
                     }
@@ -247,18 +257,15 @@ namespace TPanl
 
         private string GetContentTypeForResource(string resource)
         {
-            if (resource.EndsWith(".html"))
+            foreach (var mimeType in _mimeTypes)
             {
-                return "text/html"; 
+                if (resource.EndsWith(mimeType.Key))
+                {
+                    return mimeType.Value; 
+                }
             }
-            else if (resource.EndsWith(".jpg"))
-            {
-                return "image/jpeg";
-            }
-            else
-            {
-                return null; 
-            }
+
+            return null; 
         }
 
         private string GetResourceForUrl(Url url)
