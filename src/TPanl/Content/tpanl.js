@@ -1,10 +1,30 @@
 ﻿var _req = new XMLHttpRequest();
+var _touchX;
+var _touchY;
 
 function post() {
-    var d = new Date();
-    //alert("before open");
-    _req.open("POST", "notify?hh=" + d.getHours() + "&mm=" + d.getMinutes() + "&ss=" + d.getSeconds() + "." + d.getMilliseconds(), true);
-    //alert("Before send");
+    _req.open("POST", "notify?x=" + _touchX + "&y=" + _touchY, true);
     _req.send(null);
-    //alert("after send");
 }
+
+function ontouchstart(event) {
+    _touchX = event.targetTouches[0].pageX;
+    _touchY = event.targetTouches[0].pageY;     
+}
+
+function ontouchend(event) {
+    post();
+}
+
+function ontouchmove(event) {
+    event.preventDefault(); // Don't let Safari scroll
+}
+
+function initialize() {
+    document.addEventListener('touchstart', ontouchstart);
+    document.addEventListener('touchend', ontouchend);
+    document.addEventListener('touchmove', ontouchmove);
+}
+
+
+window.onload = initialize; 
