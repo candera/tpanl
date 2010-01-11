@@ -11,6 +11,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using TPanl.Net;
+using System.Media;
 
 namespace TPanl
 {
@@ -163,7 +164,7 @@ namespace TPanl
             }
             else
             {
-                textBox1.AppendText(DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss:") + message);
+                textBox1.AppendText(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff:") + message);
                 textBox1.AppendText("\r\n");
             }
         }
@@ -225,6 +226,8 @@ namespace TPanl
 
         private void HandleHttpRequest(SimpleHttpContext context)
         {
+            Beep(); 
+
             var resource = GetResourceForUrl(context.Request.RawUrl);
 
             if (resource == null)
@@ -253,6 +256,18 @@ namespace TPanl
                 }
             }
 
+        }
+
+        private void Beep()
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(Beep));
+            }
+            else
+            {
+                SystemSounds.Beep.Play(); 
+            }
         }
 
         private string GetContentTypeForResource(string resource)

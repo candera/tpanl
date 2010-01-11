@@ -43,6 +43,7 @@ namespace TPanl.Net
                 while (true)
                 {
                     TcpClient socket = server.AcceptTcpClient();
+
                     using (var context = new SimpleHttpContext(socket, _logger))
                     {
                         _requestHandler(context);
@@ -55,5 +56,6 @@ namespace TPanl.Net
             }
 
         }
+
     }
 }
