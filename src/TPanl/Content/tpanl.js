@@ -1,11 +1,18 @@
 ﻿var _regions = 
 {
-    "targettype1" : [63, 12, 42, 40],
-    "targettype2" : [112, 12, 43, 39],
-    "targettype3" : [161, 13, 42, 38],
-    "targettypeother" : [212, 12, 44, 40]
+    "targettype1"       : [63, 12, 42, 40],
+    "targettype2"       : [112, 12, 43, 39],
+    "targettype3"       : [161, 13, 42, 38],
+    "targettypeother"   : [212, 12, 44, 40],
+    "wingman1"          : [36, 60, 42, 41],
+    "wingman2"          : [85, 61, 44, 41],
+    "wingman3"          : [133, 61, 44, 41],
+    "wingman4"          : [181, 60, 44, 41],
+    "wingmanall"        : [231, 59, 45, 41],
+    "clear"             : [105, 108, 45, 41],
+    "DLIngress"         : [162, 108, 45, 41],
+    "SendMem"           : [215, 108, 45, 42]
     
-    // TODO: More
     // TODO: Dynamically generate these. 
 }
 
