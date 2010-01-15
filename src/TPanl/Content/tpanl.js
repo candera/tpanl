@@ -68,8 +68,8 @@ function down(x, y) {
         var box = document.getElementById("highlight-box");
         box.style.left = region.Bounds[0] + panelLeft;
         box.style.top = region.Bounds[1] + panelTop;
-        box.style.width = region.Bounds[2];
-        box.style.height = region.Bounds[3];
+        box.style.width = region.Bounds[2] - 6;
+        box.style.height = region.Bounds[3] - 6;
         box.style.display = "block";
     }
     else {
@@ -92,7 +92,7 @@ function ontouchend(event) {
 }
 
 function ontouchmove(event) {
-    event.preventDefault(); // Don't let Safari scroll
+    //event.preventDefault(); // Don't let Safari scroll
 }
 
 function onmousedown(event) {
@@ -110,9 +110,9 @@ function initialize() {
 
     var panel = document.getElementById("panel");
 
-    panel.onmousedown = onmousedown; 
-    panel.onmouseup = onmouseup; 
-    panel.onmousemove = onmousemove; 
+//    panel.onmousedown = onmousedown; 
+//    panel.onmouseup = onmouseup; 
+//    panel.onmousemove = onmousemove; 
 
 }
 
