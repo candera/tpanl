@@ -37,19 +37,18 @@
 # ab+cd = A, B, Control-C, D
 # {*Home} = Extended home key
 
-targettype1: {LShiftKey}1
-#targettype1: A
-targettype2: {LShiftKey}2
-targettype3: {LShiftKey}3
-targettypeother: {LShiftKey}4
-wingman1: {LControlKey}1
-wingman2: {LControlKey}2        
-wingman3: {LControlKey}3
-wingman4: {LControlKey}4
-wingmanall: {LControlKey}5
-clear: {LShiftKey}T
-DLIngress: {LShiftKey}Y
-SendMem: {LShiftKey}U
+targettype1: `{LShiftKey}`1/1/{LShiftKey}
+targettype2: `{LShiftKey}`2/2/{LShiftKey}
+targettype3: `{LShiftKey}`3/3/{LShiftKey}
+targettypeother: `{LShiftKey}`4/4/{LShiftKey}
+wingman1: `{LControlKey}`1/1/{LControlKey}
+wingman2: `{LControlKey}`2/2/{LControlKey}
+wingman3: `{LControlKey}`3/3/{LControlKey}
+wingman4: `{LControlKey}`4/4/{LControlKey}
+wingmanall: `{LControlKey}`5/5/{LControlKey}
+clear: `{LShiftKey}`T/T/{LShiftKey}
+DLIngress: `{LShiftKey}`Y/Y/{LShiftKey}
+SendMem: `{LShiftKey}`U/U/{LShiftKey}
 
 #TEST: abcd1234+ab
 #
