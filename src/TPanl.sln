@@ -7,13 +7,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 		TPanl1.vsmdi = TPanl1.vsmdi
+		TPanl2.vsmdi = TPanl2.vsmdi
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPanl.Tests", "TPanl.Tests\TPanl.Tests.csproj", "{028DD8AC-846B-4319-804E-8F0BDA132705}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = TPanl1.vsmdi
+		CategoryFile = TPanl2.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x32 = Debug|x32

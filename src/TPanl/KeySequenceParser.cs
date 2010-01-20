@@ -11,6 +11,7 @@ namespace TPanl
         private class ParseNode
         {
             public readonly List<ParseNode> Children = new List<ParseNode>();
+            public KeyDirection Direction { get; set; }
             public bool Extended { get; set; }
             public bool HasContent
             {
@@ -49,11 +50,8 @@ namespace TPanl
             {
                 List<ParseNode> parseTree = new List<ParseNode>();
                 ParseNode root = new ParseNode();
-                ParseNode currentNode = root;
-                for (int i = 0; i < specification.Length; )
-                {
-                    i += ParseAtom(specification, i, currentNode);
-                }
+
+                Parse(specification, root); 
 
                 KeyEventSequence keyEventSequence = new KeyEventSequence();
                 AddNode(keyEventSequence, root);
@@ -65,11 +63,22 @@ namespace TPanl
             }
         }
 
+        private static void Parse(string specification, ParseNode currentNode)
+        {
+            for (int i = 0; i < specification.Length; )
+            {
+                i += ParseAtom(specification, i, currentNode);
+            }
+        }
+
         private static void AddNode(KeyEventSequence keyEventSequence, ParseNode node)
         {
             if (node.HasContent)
             {
-                keyEventSequence.Add(node.ToKeyEvent(KeyDirection.Down));
+                if (node.Direction != KeyDirection.Up)
+                {
+                    keyEventSequence.Add(node.ToKeyEvent(KeyDirection.Down));
+                }
             }
 
             foreach (ParseNode child in node.Children)
@@ -79,7 +88,10 @@ namespace TPanl
 
             if (node.HasContent)
             {
-                keyEventSequence.Add(node.ToKeyEvent(KeyDirection.Up));
+                if (node.Direction != KeyDirection.Down)
+                {
+                    keyEventSequence.Add(node.ToKeyEvent(KeyDirection.Up));
+                }
             }
         }
         private static int ParseAtom(string specification, int i, ParseNode currentNode)
@@ -92,6 +104,16 @@ namespace TPanl
                 ParseNode newNode = new ParseNode { Key = GetModifier(currentChar) };
                 currentNode.Children.Add(newNode);
                 consumed = 1 + ParseAtom(specification, i + 1, newNode);
+            }
+            else if (IsDirectionalModifier(currentChar))
+            {
+                ParseNode container = new ParseNode { };
+                consumed = 1 + ParseAtom(specification, i + 1, container);
+                foreach (var child in container.Children)
+                {
+                    child.Direction = GetDirection(currentChar); 
+                    currentNode.Children.Add(child); 
+                }
             }
             else if (currentChar == '{')
             {
@@ -107,7 +129,7 @@ namespace TPanl
                 if (keySpecification.StartsWith("*"))
                 {
                     extended = true;
-                    keySpecification = keySpecification.Substring(1); 
+                    keySpecification = keySpecification.Substring(1);
                 }
 
                 Keys? key = null;
@@ -122,11 +144,11 @@ namespace TPanl
 
                     if (parts.Length != 2)
                     {
-                        throw new KeySpecificationParseException("Key specification did not contain exactly two periods."); 
+                        throw new KeySpecificationParseException("Key specification did not contain exactly two periods.");
                     }
 
                     key = ParseKey(parts[0]);
-                    scanCode = ParseNumber(parts[1]); 
+                    scanCode = ParseNumber(parts[1]);
                 }
                 else
                 {
@@ -155,6 +177,24 @@ namespace TPanl
             }
 
             return consumed;
+        }
+
+        private static KeyDirection GetDirection(char c)
+        {
+            switch (c)
+            {
+                case '`':
+                    return KeyDirection.Down; 
+                case '/':
+                    return KeyDirection.Up; 
+                default:
+                    throw new KeySpecificationParseException("Unrecognized directional specifier: " + c.ToString()); 
+            }
+        }
+
+        private static bool IsDirectionalModifier(char c)
+        {
+            return (c == '`') || (c == '/');
         }
 
         private static Keys ParseKey(string keyname)

@@ -7,6 +7,7 @@ namespace TPanl
 {
     public enum KeyDirection
     {
+        Unspecified = 0,
         Down, 
         Up,
     }

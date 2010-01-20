@@ -16,7 +16,7 @@
 # http://msdn2.microsoft.com/en-us/system.windows.forms.keys
 # 
 # Basic syntax: characters send themselves, except for +, {, }, ^, %,
-# (, and ). To specify (e.g.) +, use the named key: {Add}
+# /, \, (, and ). To specify (e.g.) +, use the named key: {Add}
 # 
 # If you need to identify a scancode in addition to the key name,
 # enclose both in the braces and follow the key name with a period and
