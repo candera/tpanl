@@ -10,8 +10,8 @@
 #
 # Lines that start with a # are ignored. 
 # 
-# Single characters name themselves. Characters inside
-# Uses the syntax of Keys, listed here: 
+# Single characters name themselves. Characters inside curly braces
+# use the syntax of Keys, listed here: 
 #
 # http://msdn2.microsoft.com/en-us/system.windows.forms.keys
 # 
@@ -37,79 +37,93 @@
 # ab+cd = A, B, Control-C, D
 # {*Home} = Extended home key
 
-TEST: abcd1234+ab
+targettype1: {LShiftKey}1
+#targettype1: A
+targettype2: {LShiftKey}2
+targettype3: {LShiftKey}3
+targettypeother: {LShiftKey}4
+wingman1: {LControlKey}1
+wingman2: {LControlKey}2        
+wingman3: {LControlKey}3
+wingman4: {LControlKey}4
+wingmanall: {LControlKey}5
+clear: {LShiftKey}T
+DLIngress: {LShiftKey}Y
+SendMem: {LShiftKey}U
 
-LMFDOSB01: ^%1
-LMFDOSB02: ^%2
-LMFDOSB03: ^%3
-LMFDOSB04: ^%4
-LMFDOSB05: ^%5
-LMFDOSB06: ^%6
-LMFDOSB07: ^%7
-LMFDOSB08: ^%8
-LMFDOSB09: ^%9
-LMFDOSB10: ^%0
-LMFDOSB11: ^%{numpad1}
-LMFDOSB12: ^%{numpad2}
-LMFDOSB13: ^%{numpad3}
-LMFDOSB14: ^%{numpad4}
-LMFDOSB15: ^%{numpad5}
-LMFDOSB16: ^%{numpad6}
-LMFDOSB17: ^%{numpad7}
-LMFDOSB18: ^%{numpad8}
-LMFDOSB19: ^%{numpad9}
-LMFDOSB20: ^%{numpad0}
-
-RMFDOSB01: +%1
-RMFDOSB02: +%2
-RMFDOSB03: +%3
-RMFDOSB04: +%4
-RMFDOSB05: +%5
-RMFDOSB06: +%6
-RMFDOSB07: +%7
-RMFDOSB08: +%8
-RMFDOSB09: +%9
-RMFDOSB10: +%0
-RMFDOSB11: +%{numpad1}
-RMFDOSB12: +%{numpad2}
-RMFDOSB13: +%{numpad3}
-RMFDOSB14: +%{numpad4}
-RMFDOSB15: +%{numpad5}
-RMFDOSB16: +%{numpad6}
-RMFDOSB17: +%{numpad7}
-RMFDOSB18: +%{numpad8}
-RMFDOSB19: +%{numpad9}
-RMFDOSB20: +%{numpad0}
-
-# Numeric keypad divide
-ICPCOM1: +{*Divide}
-#ICPCOM1: +o
-ICPCOM2: +{multiply}
-ICPIFF: +{numpad7}
-ICPLIST: +{numpad9}
-ICPAA: +{numpad0}
-ICPAG: +{decimal}
-ICP0: ^{numpad0}
-ICP1: ^{numpad7}
-ICP2: ^{numpad8}
-ICP3: ^{numpad9}
-ICP4: ^{numpad4}
-ICP5: ^{numpad5}
-ICP6: ^{numpad6}
-ICP7: ^{numpad1}
-ICP8: ^{numpad2}
-ICP9: ^{numpad3}
-ICPRCL: ^{*Decimal}
-#ICPRCL: %{NumPad9}
-#ICPENTR: ^{enter}
-ICPENTR: ^{*Enter}
-ICPNEXT: ^{subtract}
-ICPPREV: ^{add}
-#ICPDCSUP: %{NumPad8}
-ICPDCSUP: ^{*Home}
-#ICPDCSDOWN: %{NumPad2}
-ICPDCSDOWN: ^{*End}
-#ICPDCSRTN: %{NumPad4}
-ICPDCSRTN: ^{*Insert}
-#ICPDCSSEQ: %{NumPad6}
-ICPDCSSEQ: ^{*PageUp}
+#TEST: abcd1234+ab
+#
+#LMFDOSB01: ^%1
+#LMFDOSB02: ^%2
+#LMFDOSB03: ^%3
+#LMFDOSB04: ^%4
+#LMFDOSB05: ^%5
+#LMFDOSB06: ^%6
+#LMFDOSB07: ^%7
+#LMFDOSB08: ^%8
+#LMFDOSB09: ^%9
+#LMFDOSB10: ^%0
+#LMFDOSB11: ^%{numpad1}
+#LMFDOSB12: ^%{numpad2}
+#LMFDOSB13: ^%{numpad3}
+#LMFDOSB14: ^%{numpad4}
+#LMFDOSB15: ^%{numpad5}
+#LMFDOSB16: ^%{numpad6}
+#LMFDOSB17: ^%{numpad7}
+#LMFDOSB18: ^%{numpad8}
+#LMFDOSB19: ^%{numpad9}
+#LMFDOSB20: ^%{numpad0}
+#
+#RMFDOSB01: +%1
+#RMFDOSB02: +%2
+#RMFDOSB03: +%3
+#RMFDOSB04: +%4
+#RMFDOSB05: +%5
+#RMFDOSB06: +%6
+#RMFDOSB07: +%7
+#RMFDOSB08: +%8
+#RMFDOSB09: +%9
+#RMFDOSB10: +%0
+#RMFDOSB11: +%{numpad1}
+#RMFDOSB12: +%{numpad2}
+#RMFDOSB13: +%{numpad3}
+#RMFDOSB14: +%{numpad4}
+#RMFDOSB15: +%{numpad5}
+#RMFDOSB16: +%{numpad6}
+#RMFDOSB17: +%{numpad7}
+#RMFDOSB18: +%{numpad8}
+#RMFDOSB19: +%{numpad9}
+#RMFDOSB20: +%{numpad0}
+#
+## Numeric keypad divide
+#ICPCOM1: +{*Divide}
+##ICPCOM1: +o
+#ICPCOM2: +{multiply}
+#ICPIFF: +{numpad7}
+#ICPLIST: +{numpad9}
+#ICPAA: +{numpad0}
+#ICPAG: +{decimal}
+#ICP0: ^{numpad0}
+#ICP1: ^{numpad7}
+#ICP2: ^{numpad8}
+#ICP3: ^{numpad9}
+#ICP4: ^{numpad4}
+#ICP5: ^{numpad5}
+#ICP6: ^{numpad6}
+#ICP7: ^{numpad1}
+#ICP8: ^{numpad2}
+#ICP9: ^{numpad3}
+#ICPRCL: ^{*Decimal}
+##ICPRCL: %{NumPad9}
+##ICPENTR: ^{enter}
+#ICPENTR: ^{*Enter}
+#ICPNEXT: ^{subtract}
+#ICPPREV: ^{add}
+##ICPDCSUP: %{NumPad8}
+#ICPDCSUP: ^{*Home}
+##ICPDCSDOWN: %{NumPad2}
+#ICPDCSDOWN: ^{*End}
+##ICPDCSRTN: %{NumPad4}
+#ICPDCSRTN: ^{*Insert}
+##ICPDCSSEQ: %{NumPad6}
+#ICPDCSSEQ: ^{*PageUp}
