@@ -39,8 +39,8 @@ namespace TPanl.Net
                 {
                     var parts = line.Split(' ');
                     _request.Method = parts[0];
-                    _request.RawUrl = parts[1];
-                    Log("method is " + _request.Method + " url is " + _request.RawUrl);
+                    _request.Url = parts[1];
+                    Log("method is " + _request.Method + " url is " + _request.Url);
                     firstLine = false; 
                 }
                 else if (line.Trim().Length == 0)

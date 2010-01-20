@@ -9,7 +9,7 @@ namespace TPanl.Net
     public class SimpleHttpRequest
     {
         public string Method { get; set; }
-        public Url RawUrl { get; set; }
+        public Url Url { get; set; }
 
     }
 }

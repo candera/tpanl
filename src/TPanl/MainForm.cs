@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq; 
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -128,15 +129,8 @@ namespace TPanl
                         continue;
                     }
 
-                    string button = parts[0].Trim();
+                    string button = parts[0].Trim().ToLowerInvariant();
                     string specification = parts[1].Trim();
-
-                    if (!button.Contains("/"))
-                    {
-                        button = "socket/" + button; 
-                    }
-
-                    button = button.ToLowerInvariant(); 
 
                     KeyEventSequence eventSequence = KeySequenceParser.Parse(specification);
 
@@ -194,7 +188,7 @@ namespace TPanl
         }
         private void ShowKeysSending()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
      
         private void SetStatus(string message)
@@ -226,34 +220,72 @@ namespace TPanl
 
         private void HandleHttpRequest(SimpleHttpContext context)
         {
-            Beep(); 
+            Beep();
 
-            var resource = GetResourceForUrl(context.Request.RawUrl);
-
-            if (resource == null)
+            if (context.Request.Method == "POST")
             {
-                Log("Could not map resource for URL" + context.Request.RawUrl); 
-                context.Response.StatusCode = HttpStatusCode.NotFound;
-                context.Response.StatusDescription = "Not Found";
-            }
-            else
-            {
-                using (var stream = GetResourceStream(resource))
+                if (context.Request.Url.Path.Equals("/notify"))
                 {
-                    if (stream == null)
+                    var region = context.Request.Url.QueryParameters["region"].First();
+
+                    if (_profileLoaded)
                     {
-                        Log("Could not load resource for " + resource);
-                        context.Response.StatusCode = HttpStatusCode.NotFound;
-                        context.Response.StatusDescription = "Not Found";
-                        context.Write("Not found");
+                        var command = Command.Parse("CLICK " + region);
+
+                        if (command == null)
+                        {
+                            Log("No key sequence found for " + region);
+                            context.Response.StatusCode = HttpStatusCode.NotFound;
+                            context.Response.StatusDescription = "Not Found";
+                        }
+                        else
+                        {
+                            Log("Sending keys for region " + region);
+                            command.Execute(this); 
+                        }
                     }
                     else
                     {
-                        Log("Found resource " + resource); 
-                        context.Response.ContentType = GetContentTypeForResource(resource);
-                        context.Write(stream);
+                        Log("No profile loaded!");
+                        Beep(); 
                     }
                 }
+            }
+            else if (context.Request.Method == "GET")
+            {
+                var resource = GetResourceForUrl(context.Request.Url.Path);
+
+                if (resource == null)
+                {
+                    Log("Could not map resource for URL" + context.Request.Url);
+                    context.Response.StatusCode = HttpStatusCode.NotFound;
+                    context.Response.StatusDescription = "Not Found";
+                }
+                else
+                {
+                    using (var stream = GetResourceStream(resource))
+                    {
+                        if (stream == null)
+                        {
+                            Log("Could not load resource for " + resource);
+                            context.Response.StatusCode = HttpStatusCode.NotFound;
+                            context.Response.StatusDescription = "Not Found";
+                            context.Write("Not found");
+                        }
+                        else
+                        {
+                            Log("Found resource " + resource);
+                            context.Response.ContentType = GetContentTypeForResource(resource);
+                            context.Write(stream);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Log("No support for method " + context.Request.Method);
+                context.Response.StatusCode = HttpStatusCode.MethodNotAllowed;
+                context.Response.StatusDescription = "Method Not Allowed"; 
             }
 
         }
