@@ -234,7 +234,7 @@ namespace TPanl
 
         private void HandleHttpRequest(SimpleHttpContext context)
         {
-            Beep();
+            //Beep();
 
             if (context.Request.Method == "POST")
             {
