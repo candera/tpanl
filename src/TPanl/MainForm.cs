@@ -39,6 +39,20 @@ namespace TPanl
         {
             InitializeComponent();
 
+#if IS64BIT
+            if (IntPtr.Size != 8)
+            {
+                MessageBox.Show("You are running the 64-bit version of this program, but it does not look like this is a 64-bit operating system. This program will not function correctly unless the correct version is run.",
+                    "TPanl", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+#else
+            if (IntPtr.Size != 4)
+            {
+                MessageBox.Show("You are running the 32-bit version of this program, but it does not look like this is a 32-bit operating system. This program will not function correctly unless the correct version is run.",
+                    "TPanl", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+#endif
+
             if (args != null && args.Length > 0)
             {
                 LoadProfile(args[0]); 
