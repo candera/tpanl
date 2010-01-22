@@ -17,28 +17,18 @@ Global
 		CategoryFile = TPanl2.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x32 = Debug|x32
-		Debug|x64 = Debug|x64
-		Release|x32 = Release|x32
-		Release|x64 = Release|x64
+		Debug|All Platforms = Debug|All Platforms
+		Release|All Platforms = Release|All Platforms
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EC36033A-174E-4C86-9ECB-AE3C40475A50}.Debug|x32.ActiveCfg = Debug|Any CPU
-		{EC36033A-174E-4C86-9ECB-AE3C40475A50}.Debug|x32.Build.0 = Debug|Any CPU
-		{EC36033A-174E-4C86-9ECB-AE3C40475A50}.Debug|x64.ActiveCfg = Debug|x64
-		{EC36033A-174E-4C86-9ECB-AE3C40475A50}.Debug|x64.Build.0 = Debug|x64
-		{EC36033A-174E-4C86-9ECB-AE3C40475A50}.Release|x32.ActiveCfg = Release|Any CPU
-		{EC36033A-174E-4C86-9ECB-AE3C40475A50}.Release|x32.Build.0 = Release|Any CPU
-		{EC36033A-174E-4C86-9ECB-AE3C40475A50}.Release|x64.ActiveCfg = Release|x64
-		{EC36033A-174E-4C86-9ECB-AE3C40475A50}.Release|x64.Build.0 = Release|x64
-		{028DD8AC-846B-4319-804E-8F0BDA132705}.Debug|x32.ActiveCfg = Debug|Any CPU
-		{028DD8AC-846B-4319-804E-8F0BDA132705}.Debug|x32.Build.0 = Debug|Any CPU
-		{028DD8AC-846B-4319-804E-8F0BDA132705}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{028DD8AC-846B-4319-804E-8F0BDA132705}.Debug|x64.Build.0 = Debug|Any CPU
-		{028DD8AC-846B-4319-804E-8F0BDA132705}.Release|x32.ActiveCfg = Release|Any CPU
-		{028DD8AC-846B-4319-804E-8F0BDA132705}.Release|x32.Build.0 = Release|Any CPU
-		{028DD8AC-846B-4319-804E-8F0BDA132705}.Release|x64.ActiveCfg = Release|Any CPU
-		{028DD8AC-846B-4319-804E-8F0BDA132705}.Release|x64.Build.0 = Release|Any CPU
+		{EC36033A-174E-4C86-9ECB-AE3C40475A50}.Debug|All Platforms.ActiveCfg = Debug|Any CPU
+		{EC36033A-174E-4C86-9ECB-AE3C40475A50}.Debug|All Platforms.Build.0 = Debug|Any CPU
+		{EC36033A-174E-4C86-9ECB-AE3C40475A50}.Release|All Platforms.ActiveCfg = Release|Any CPU
+		{EC36033A-174E-4C86-9ECB-AE3C40475A50}.Release|All Platforms.Build.0 = Release|Any CPU
+		{028DD8AC-846B-4319-804E-8F0BDA132705}.Debug|All Platforms.ActiveCfg = Debug|Any CPU
+		{028DD8AC-846B-4319-804E-8F0BDA132705}.Debug|All Platforms.Build.0 = Debug|Any CPU
+		{028DD8AC-846B-4319-804E-8F0BDA132705}.Release|All Platforms.ActiveCfg = Release|Any CPU
+		{028DD8AC-846B-4319-804E-8F0BDA132705}.Release|All Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

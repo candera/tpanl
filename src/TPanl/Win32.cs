@@ -11,8 +11,30 @@ namespace TPanl
         [DllImport("user32.dll")]
         public static extern IntPtr GetMessageExtraInfo();
 
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
+        [DllImport("user32.dll", EntryPoint = "SendInput", SetLastError = true)]
+        public static extern uint SendInput32(uint nInputs, INPUT32[] pInputs, int cbSize);
+
+        [DllImport("user32.dll", EntryPoint="SendInput", SetLastError = true)]
+        public static extern uint SendInput64(uint nInputs, INPUT64[] pInputs, int cbSize);
+
+        public static uint SendInput(KeyEventSequence keys)
+        {
+            if (IntPtr.Size == 4)
+            {
+                INPUT32[] inputs = keys.ToInputArray32();
+                return Win32.SendInput32((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT32)));
+            }
+            else if (IntPtr.Size == 8)
+            {
+                INPUT64[] inputs = keys.ToInputArray64();
+                return Win32.SendInput64((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT64)));
+            }
+            else
+            {
+                throw new NotSupportedException("Can't figure out platform bitness. Pointers have this width: " + IntPtr.Size.ToString());
+            }
+        }
+
 
         [DllImport("user32.dll")]
         public static extern uint MapVirtualKey(uint uCode, uint uMapType);
@@ -47,27 +69,31 @@ namespace TPanl
         }
 
         [StructLayout(LayoutKind.Explicit)]
-        public struct INPUT
+        public struct INPUT32
         {
             [FieldOffset(0)]
             public int type;
-#if IS64BIT
-            [FieldOffset(8)]
-#else 
             [FieldOffset(4)]
-#endif
             public MOUSEINPUT mi;
-#if IS64BIT
-            [FieldOffset(8)]
-#else
             [FieldOffset(4)]
-#endif
             public KEYBDINPUT ki;
-#if IS64BIT
-            [FieldOffset(8)]
-#else
             [FieldOffset(4)]
-#endif
+            public HARDWAREINPUT hi;
+        }
+
+        [StructLayout(LayoutKind.Explicit)]
+        public struct INPUT64
+        {
+            [FieldOffset(0)]
+            public int type;
+
+            [FieldOffset(8)]
+            public MOUSEINPUT mi;
+            
+            [FieldOffset(8)]
+            public KEYBDINPUT ki;
+            
+            [FieldOffset(8)]
             public HARDWAREINPUT hi;
         }
 
@@ -96,5 +122,6 @@ namespace TPanl
         public const uint MAPVK_VSC_TO_VK = 0x01;
         public const uint MAPVK_VK_TO_CHAR = 0x02;
         public const uint MAPVK_VSC_TO_VK_EX = 0x03;
+
     }
 }

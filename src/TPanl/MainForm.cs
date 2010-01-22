@@ -39,20 +39,6 @@ namespace TPanl
         {
             InitializeComponent();
 
-#if IS64BIT
-            if (IntPtr.Size != 8)
-            {
-                MessageBox.Show("You are running the 64-bit version of this program, but it does not look like this is a 64-bit operating system. This program will not function correctly unless the correct version is run.",
-                    "TPanl", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-#else
-            if (IntPtr.Size != 4)
-            {
-                MessageBox.Show("You are running the 32-bit version of this program, but it does not look like this is a 32-bit operating system. This program will not function correctly unless the correct version is run.",
-                    "TPanl", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-#endif
-
             if (args != null && args.Length > 0)
             {
                 LoadProfile(args[0]); 
@@ -62,8 +48,8 @@ namespace TPanl
         public void SendKeys(KeyEventSequence keys)
         {
             Log(string.Format("Sending {0}", keys.ToString()));
-            Win32.INPUT[] inputs = keys.ToInputArray();
-            uint result = Win32.SendInput((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(Win32.INPUT)));
+
+            uint result = Win32.SendInput(keys); 
 
             Log("SendInput reports it sent this many events: " + result.ToString());
             ShowKeysSending(); 

@@ -32,9 +32,9 @@ namespace TPanl
             return result; 
         }
 
-        internal Win32.INPUT ToInput()
+        internal Win32.INPUT32 ToInput32()
         {
-            Win32.INPUT input = new Win32.INPUT();
+            Win32.INPUT32 input = new Win32.INPUT32();
             input.type = Win32.INPUT_KEYBOARD;
 
             input.ki.wVk = (ushort)Key;
@@ -60,6 +60,39 @@ namespace TPanl
             }
 
             input.ki.dwFlags = flags; 
+            input.ki.dwExtraInfo = Win32.GetMessageExtraInfo();
+
+            return input;
+        }
+
+        internal Win32.INPUT64 ToInput64()
+        {
+            Win32.INPUT64 input = new Win32.INPUT64();
+            input.type = Win32.INPUT_KEYBOARD;
+
+            input.ki.wVk = (ushort)Key;
+            uint flags = Win32.KEYEVENTF_SCANCODE;
+            if (ScanCode.HasValue)
+            {
+                input.ki.wScan = ScanCode.Value;
+            }
+            else
+            {
+                input.ki.wScan = (ushort)Win32.MapVirtualKey(input.ki.wVk, Win32.MAPVK_VK_TO_VSC);
+            }
+            input.ki.time = 0;
+
+            if (Direction == KeyDirection.Up)
+            {
+                flags |= Win32.KEYEVENTF_KEYUP;
+            }
+
+            if (Extended)
+            {
+                flags |= Win32.KEYEVENTF_EXTENDEDKEY;
+            }
+
+            input.ki.dwFlags = flags;
             input.ki.dwExtraInfo = Win32.GetMessageExtraInfo();
 
             return input;

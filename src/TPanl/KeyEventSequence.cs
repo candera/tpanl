@@ -7,16 +7,27 @@ namespace TPanl
 {
     public class KeyEventSequence : List<KeyEvent>
     {
-        internal Win32.INPUT[] ToInputArray()
+        internal Win32.INPUT32[] ToInputArray32()
         {
-            Win32.INPUT[] inputs = new Win32.INPUT[this.Count];
+            Win32.INPUT32[] inputs = new Win32.INPUT32[this.Count];
 
             for (int i = 0; i < Count; i++)
             {
-                inputs[i] = this[i].ToInput(); 
+                inputs[i] = this[i].ToInput32();
             }
 
-            return inputs; 
+            return inputs;
+        }
+        internal Win32.INPUT64[] ToInputArray64()
+        {
+            Win32.INPUT64[] inputs = new Win32.INPUT64[this.Count];
+
+            for (int i = 0; i < Count; i++)
+            {
+                inputs[i] = this[i].ToInput64();
+            }
+
+            return inputs;
         }
 
         public override string ToString()
@@ -26,5 +37,6 @@ namespace TPanl
                  in this
                  select item.ToString()).ToArray()); 
         }
+
     }
 }
