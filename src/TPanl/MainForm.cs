@@ -49,7 +49,7 @@ namespace TPanl
         {
             Log(string.Format("Sending {0}", keys.ToString()));
 
-            uint result = Win32.SendInput(keys); 
+            uint result = Win32.SendInput(keys, true, TimeSpan.FromMilliseconds(20)); 
 
             Log("SendInput reports it sent this many events: " + result.ToString());
             ShowKeysSending(); 

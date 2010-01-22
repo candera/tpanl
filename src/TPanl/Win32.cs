@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace TPanl
 {
@@ -17,17 +18,53 @@ namespace TPanl
         [DllImport("user32.dll", EntryPoint="SendInput", SetLastError = true)]
         public static extern uint SendInput64(uint nInputs, INPUT64[] pInputs, int cbSize);
 
-        public static uint SendInput(KeyEventSequence keys)
+        public static uint SendInput(KeyEventSequence keys, bool sendKeysIndividually, Nullable<TimeSpan> pauseBetweenKeys)
         {
             if (IntPtr.Size == 4)
             {
                 INPUT32[] inputs = keys.ToInputArray32();
-                return Win32.SendInput32((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT32)));
+                if (sendKeysIndividually)
+                {
+                    INPUT32[] chunkedInput = new INPUT32[1];
+                    uint total = 0;
+                    for (int i = 0; i < inputs.Length; ++i)
+                    {
+                        chunkedInput[0] = inputs[i];
+                        total += Win32.SendInput32(1, chunkedInput, Marshal.SizeOf(typeof(INPUT32)));
+                        if (pauseBetweenKeys.HasValue)
+                        {
+                            Thread.Sleep(pauseBetweenKeys.Value);
+                        }
+                    }
+                    return total; 
+                }
+                else
+                {
+                    return Win32.SendInput32((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT32)));
+                }
             }
             else if (IntPtr.Size == 8)
             {
                 INPUT64[] inputs = keys.ToInputArray64();
-                return Win32.SendInput64((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT64)));
+                if (sendKeysIndividually)
+                {
+                    INPUT64[] chunkedInput = new INPUT64[1];
+                    uint total = 0;
+                    for (int i = 0; i < inputs.Length; ++i)
+                    {
+                        chunkedInput[0] = inputs[i];
+                        total += Win32.SendInput64(1, chunkedInput, Marshal.SizeOf(typeof(INPUT64)));
+                        if (pauseBetweenKeys.HasValue)
+                        {
+                            Thread.Sleep(pauseBetweenKeys.Value);
+                        }
+                    }
+                    return total;
+                }
+                else
+                {
+                    return Win32.SendInput64((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT64)));
+                }
             }
             else
             {
